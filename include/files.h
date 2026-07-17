@@ -13,5 +13,7 @@ int open_file(char *file_path);
 bool does_file_exist(char *file_path);
 int create_file(char *file_path);
 int close_file(int file_descriptor);
+int create_directory(char *file_path);
+bool does_dir_exist(char *file_path);
 
 #endif

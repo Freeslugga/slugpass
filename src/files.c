@@ -3,12 +3,12 @@
 struct stat file_stat;
 
 int open_file(char *file_path) {
-  int fd = stat(file_path, &file_stat);
+  int status = stat(file_path, &file_stat);
 
-  if (fd >= 0) {
+  if (status >= 0) {
     if (!S_ISDIR(file_stat.st_mode)) {
       printf("File opened at %s", file_path);
-      return fd;
+      return status;
     }
     fprintf(stderr, "Error: Path is a directory.\n");
     return -1;
@@ -52,4 +52,18 @@ int create_directory(char *file_path) {
     return 0;
   }
   return -1;
+}
+
+bool does_dir_exist(char *file_path) {
+  int status = stat(file_path, &file_stat);
+
+  if (status == 0) {
+    if (S_ISDIR(file_stat.st_mode)) {
+      return true;
+    }
+    fprintf(stderr, "Error: File at path %s is not a directory.\n", file_path);
+    return false;
+  }
+  fprintf(stderr, "Error: Path does not exist.\n");
+  return false;
 }
