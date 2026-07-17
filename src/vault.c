@@ -1,5 +1,4 @@
 #include "../include/vault.h"
-#include "../include/files.h"
 
 bool create_vault() {
   const char *HOME = getenv("HOME");
