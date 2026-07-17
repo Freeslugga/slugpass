@@ -1,6 +1,6 @@
+#include "../include/vault.h"
 #include <stdio.h>
 #include <string.h>
-#include "../include/files.h"
 
 int main(int argc, char *argv[]) {
   if (argc > 1 && strcmp(argv[1], "vault") == 0) {
@@ -8,6 +8,7 @@ int main(int argc, char *argv[]) {
     if (argc == 3 && strcmp(argv[2], "init") == 0) {
       // ./slugpass vault init
       printf("Initializing vault file in CWD.\n");
+      create_vault();
       return 0;
     }
   }
