@@ -1,6 +1,8 @@
 #include "../include/vault.h"
 
 bool create_vault() {
+  uint32_t safe_version = htonl(PACKED_APP_VERSION);
+  FileHeader header = {{0xFA, 0xAF}, safe_version};
   const char *HOME = getenv("HOME");
   char VAULT_PATH[PATH_MAX];
   snprintf(VAULT_PATH, sizeof(VAULT_PATH), "%s/.slugpass", HOME);
@@ -11,9 +13,6 @@ bool create_vault() {
     fprintf(stderr, "Error: File Path exceeds max length");
     return false;
   }
-  uint8_t magic_bytes[2] = {0xFA, 0xAF};
-
-  printf("Path: %s\n", VAULT_PATH);
 
   if (!does_dir_exist(VAULT_PATH)) {
     int dfd = create_directory(VAULT_PATH);
@@ -26,7 +25,7 @@ bool create_vault() {
   int fd = create_file(VAULTFILE_PATH);
 
   if (fd > 0) {
-    int status = write(fd, magic_bytes, sizeof(magic_bytes));
+    ssize_t status = write(fd, &header, sizeof(header));
     close_file(fd);
     return true;
   }
