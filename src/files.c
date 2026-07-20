@@ -28,7 +28,7 @@ bool does_file_exist(char *file_path) {
 int create_file(char *file_path) {
   int fd = creat(file_path, S_IRWXU);
 
-  if (fd > 0) {
+  if (fd >= 0) {
     return fd;
   }
   fprintf(stderr, "Error: Could not create file at: %s: %s\n", file_path,

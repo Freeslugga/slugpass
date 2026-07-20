@@ -10,7 +10,7 @@
 #include <stdlib.h>
 
 typedef struct {
-  uint8_t magic_bytes[2];
+  uint8_t magic_bytes[4];
   uint32_t version;
 } FileHeader;
 
