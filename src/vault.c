@@ -3,6 +3,8 @@
 bool create_vault() {
   uint32_t safe_version = htonl(PACKED_APP_VERSION);
   FileHeader header = {{0x7F, 0x56, 0x4C, 0x54}, safe_version};
+  gen_salt(header.salt);
+  gen_nonce(header.nonce);
   const char *HOME = getenv("HOME");
   char VAULT_PATH[PATH_MAX];
   snprintf(VAULT_PATH, sizeof(VAULT_PATH), "%s/.slugpass", HOME);
@@ -30,4 +32,12 @@ bool create_vault() {
     return true;
   }
   return false;
+}
+
+void gen_salt(uint8_t salt[crypto_pwhash_SALTBYTES]) {
+  randombytes_buf(salt, crypto_pwhash_SALTBYTES);
+}
+
+void gen_nonce(uint8_t nonce[crypto_aead_xchacha20poly1305_ietf_NPUBBYTES]) {
+  randombytes_buf(nonce, crypto_aead_xchacha20poly1305_ietf_NPUBBYTES);
 }

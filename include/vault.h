@@ -5,6 +5,7 @@
 #include "version.h"
 #include <arpa/inet.h>
 #include <linux/limits.h>
+#include <sodium.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -12,8 +13,12 @@
 typedef struct {
   uint8_t magic_bytes[4];
   uint32_t version;
+  uint8_t salt[crypto_pwhash_SALTBYTES];
+  uint8_t nonce[crypto_aead_xchacha20poly1305_ietf_NPUBBYTES];
 } FileHeader;
 
 bool create_vault();
+void gen_salt(uint8_t salt[crypto_pwhash_SALTBYTES]);
+void gen_nonce(uint8_t nonce[crypto_aead_xchacha20poly1305_ietf_NPUBBYTES]);
 
 #endif
