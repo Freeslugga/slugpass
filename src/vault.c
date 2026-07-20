@@ -10,7 +10,7 @@ bool create_vault() {
   int n = snprintf(VAULTFILE_PATH, sizeof(VAULTFILE_PATH), "%s/.spvault.spv",
                    VAULT_PATH);
   if (n < 0 || (size_t)n >= sizeof(VAULTFILE_PATH)) {
-    fprintf(stderr, "Error: File Path exceeds max length");
+    fprintf(stderr, "Error: File Path exceeds max length.\n");
     return false;
   }
 
