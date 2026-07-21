@@ -1,7 +1,7 @@
 CC			:= gcc
 CFLAGS	:= -Wall -Wextra -Wshadow -Wconversion -fstack-protector-strong -fPIE -g -O1
 LDFLAGS	:= -pie
-LDLIBS	:= -Wl,-Bstatic -lsodium -Wl,-Bdynamic
+LDLIBS	:= -lsodium
 
 SRCS		:= $(wildcard src/*.c)
 BIN			:= out/slugpass
