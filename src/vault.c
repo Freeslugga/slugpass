@@ -2,7 +2,7 @@
 
 bool create_vault() {
   uint32_t safe_version = htonl(PACKED_APP_VERSION);
-  FileHeader header = {{0x7F, 0x53, 0x50, 0x56}, safe_version};
+  FileHeader header = {{0x7F, 0x53, 0x50, 0x56}, safe_version, {}, {}};
   gen_salt(header.salt);
   gen_nonce(header.nonce);
   const char *HOME = getenv("HOME");

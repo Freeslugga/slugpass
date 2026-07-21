@@ -1,18 +1,14 @@
 #include "../include/files.h"
-
-struct stat file_stat;
+#include <fcntl.h>
 
 int open_file(char *file_path) {
-  int status = stat(file_path, &file_stat);
+  int file_open = open(file_path, O_RDWR);
 
-  if (status >= 0) {
-    if (!S_ISDIR(file_stat.st_mode)) {
-      printf("File opened at %s", file_path);
-      return status;
-    }
-    fprintf(stderr, "Error: Path is a directory.\n");
-    return -1;
+  if (file_open >= 0) {
+    return file_open;
   }
+  fprintf(stderr, "Error: Could not open file at: %s: %s", file_path,
+          strerror(errno));
   return -1;
 }
 
@@ -26,7 +22,7 @@ bool does_file_exist(char *file_path) {
 }
 
 int create_file(char *file_path) {
-  int fd = creat(file_path, S_IRWXU);
+  int fd = open(file_path, O_WRONLY | O_CREAT | O_EXCL, S_IRUSR | S_IWUSR);
 
   if (fd >= 0) {
     return fd;
@@ -42,7 +38,7 @@ int close_file(int file_descriptor) {
   if (status == 0) {
     return 0;
   }
-  return 1;
+  return -1;
 }
 
 int create_directory(char *file_path) {
@@ -55,6 +51,7 @@ int create_directory(char *file_path) {
 }
 
 bool does_dir_exist(char *file_path) {
+  struct stat file_stat;
   int status = stat(file_path, &file_stat);
 
   if (status == 0) {
@@ -64,6 +61,5 @@ bool does_dir_exist(char *file_path) {
     fprintf(stderr, "Error: File at path %s is not a directory.\n", file_path);
     return false;
   }
-  fprintf(stderr, "Error: Path does not exist.\n");
   return false;
 }
