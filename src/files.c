@@ -7,7 +7,7 @@ int open_file(char *file_path) {
   if (file_open >= 0) {
     return file_open;
   }
-  fprintf(stderr, "Error: Could not open file at: %s: %s", file_path,
+  fprintf(stderr, "Error: Could not open file at: %s: %s\n", file_path,
           strerror(errno));
   return -1;
 }
