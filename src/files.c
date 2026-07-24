@@ -1,5 +1,4 @@
 #include "../include/files.h"
-#include <fcntl.h>
 
 int open_file(char *file_path) {
   int file_open = open(file_path, O_RDWR);
